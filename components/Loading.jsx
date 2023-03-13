@@ -2,9 +2,9 @@ import { ActivityIndicator, Text } from 'react-native';
 import styled from 'styled-components/native';
 
 const StyledLoading = styled.View`
-  flex: 1;
   justify-content: center;
   align-items: center;
+  height: 100%;
 `;
 
 const LoadingText = styled.Text`
