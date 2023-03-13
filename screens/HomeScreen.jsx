@@ -11,7 +11,7 @@ import axios from 'axios';
 import Post from '../components/Post';
 import Loading from '../components/Loading';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState();
 
@@ -44,10 +44,14 @@ const HomeScreen = () => {
       }
       data={items}
       renderItem={({ item }) => (
-        // <TouchableOpacity
-        //   onPress={() => Alert.alert('Сообщение', 'Произошел клик по статье')}
-        // >
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('FullPost', {
+              id: item.id,
+              title: item.title,
+            })
+          }
+        >
           <Post
             title={item.title}
             image={item.imageUrl}

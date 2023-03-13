@@ -1,19 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 
-import styled from 'styled-components/native';
-import FullPostScreen from './screens/FullPostScreen';
-import HomeScreen from './screens/HomeScreen';
-
-const StyledApp = styled.View`
-  margin-top: 50px;
-`;
+import Navigation from './screens/Navigation';
 
 export default function App() {
   return (
-    <StyledApp>
-      {/* <HomeScreen /> */}
-      <FullPostScreen />
+    <>
+      <Navigation />
       <StatusBar style="auto" />
-    </StyledApp>
+    </>
   );
 }
