@@ -1,6 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { Alert, FlatList, RefreshControl } from 'react-native';
+import {
+  Alert,
+  FlatList,
+  RefreshControl,
+  TouchableOpacity,
+} from 'react-native';
 import styled from 'styled-components/native';
 import axios from 'axios';
 
@@ -46,11 +51,15 @@ export default function App() {
         }
         data={items}
         renderItem={({ item }) => (
-          <Post
-            title={item.title}
-            image={item.imageUrl}
-            createdAt={item.createdAt}
-          />
+          <TouchableOpacity
+            onPress={() => Alert.alert('Сообщение', 'Произошел клик по статье')}
+          >
+            <Post
+              title={item.title}
+              image={item.imageUrl}
+              createdAt={item.createdAt}
+            />
+          </TouchableOpacity>
         )}
       />
     </StyledApp>
