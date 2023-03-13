@@ -1,24 +1,58 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Alert, FlatList, RefreshControl } from 'react-native';
+import styled from 'styled-components/native';
+import axios from 'axios';
+
+import Post from './components/Post';
+import Loading from './components/Loading';
+
+const StyledApp = styled.View`
+  margin-top: 50px;
+`;
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [items, setItems] = useState();
+
+  const fetchPosts = () => {
+    setIsLoading(true);
+    axios
+      .get('https://640d9bba1a18a5db837ab5e0.mockapi.io/Posts')
+      .then(({ data }) => {
+        setItems(data);
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert('Ошибка', 'Не удалось получить статьи');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(fetchPosts, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>App title</Text>
+    <StyledApp>
       <StatusBar style="auto" />
-    </View>
+      <FlatList
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={fetchPosts} />
+        }
+        data={items}
+        renderItem={({ item }) => (
+          <Post
+            title={item.title}
+            image={item.imageUrl}
+            createdAt={item.createdAt}
+          />
+        )}
+      />
+    </StyledApp>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    color: 'red',
-    fontSize: 24,
-  },
-});
